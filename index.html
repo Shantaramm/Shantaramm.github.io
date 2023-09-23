@@ -6,6 +6,19 @@
 	<link rel="stylesheet" href="style.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
 	<title>Document</title>
+	<script src="https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/cdn/metamask-sdk.js"></script>
+
+	<script>
+	
+	    const MMSDK = new MetaMaskSDK.MetaMaskSDK()
+	    // Because init process of the MetaMaskSDK is async.
+	    setTimeout(() => {
+	        const ethereum = MMSDK.getProvider() // You can also access via window.ethereum
+	
+	        ethereum.request({ method: 'eth_requestAccounts' })
+	    }, 0)
+	
+	</script>
 </head>
 <body>
 	<script>/* To connect using MetaMask */
