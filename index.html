@@ -1,46 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
-	<title>Document</title>
-	<script src="https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/cdn/metamask-sdk.js"></script>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>WC</title>
+    <script type="module" >
+      import { EthereumClient, w3mConnectors, w3mProvider } from './node_modules/@web3modal/ethereum'
+      import { Web3Modal } from './node_modules/@web3modal/html'
+      import { configureChains, createClient } from './node_modules/@wagmi/core'
+      import { arbitrum, mainnet, polygon } from './node_modules/@wagmi/core/chains'
 
-	<script>
-	
-	    const MMSDK = new MetaMaskSDK.MetaMaskSDK()
-	    // Because init process of the MetaMaskSDK is async.
-	    setTimeout(() => {
-	        const ethereum = MMSDK.getProvider() // You can also access via window.ethereum
-	
-	        ethereum.request({ method: 'eth_requestAccounts' })
-	    }, 0)
-	
-	</script>
-</head>
-<body>
-	<script>/* To connect using MetaMask */
-		async function connect() {  if (window.ethereum) {     
-			await window.ethereum.request({ method: "eth_requestAccounts" });
-			window.web3 = new Web3(window.ethereum);     const account = web3.eth.accounts;     //Get the current MetaMask selected/active wallet
-			const walletAddress = account.givenProvider.selectedAddress;     //console.log(`Wallet: ${walletAddress}`);
-		  } else {
-		   console.log("No wallet");  }}
-	</script>
-	<div class="container">
-		<div class="inner">
-			<div class="item">
-				<button class="btn" id="btn1" onclick=connect()>Connect Metamask</button>
-			</div>
-		</div>
-	</div>
-	<div class="usercard" id="usercard">
-		
-	</div>
+      const chains = [polygon]
+      const projectId = 'YOUR_PROJECT_ID'
 
-	<script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script src="app.js"></script>
-</body>
+      const { provider } = configureChains(chains, [w3mProvider({ projectId })])
+      const wagmiClient = createClient({
+        autoConnect: true,
+        connectors: w3mConnectors({ projectId, version: 1, chains }),
+        provider
+      })
+      const ethereumClient = new EthereumClient(wagmiClient, chains)
+      const web3modal = new Web3Modal({ projectId }, ethereumClient)
+    </script>
+  </head>
+
+  <body>
+ 	<div id="app">
+    		<w3m-core-button></w3m-core-button>
+  	</div>  
+  </body>
+
 </html>
+
