@@ -1,46 +1,20 @@
+import MetaMaskSDK from '@metamask/sdk';
+import { Linking } from 'react-native';
+import BackgroundTimer from 'react-native-background-timer';
 
-let tg = window.Telegram.WebApp;
-
-tg.expand();
-
-tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#2cab37';
-
-let item = "";
-
-let btn1 = document.getElementById("btn1");
-
-
-btn1.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 1!");
-		item = "1";
-		tg.MainButton.show();
-	}
+const MMSDK = new MetaMaskSDK({
+  openDeeplink: (link) => {
+    Linking.openURL(link); // Use React Native Linking method or another way of opening deeplinks.
+  },
+  timer: BackgroundTimer, // To keep the dapp alive once it goes to background.
+  dappMetadata: {
+    name: 'My dapp', // The name of your dapp.
+    url: 'https://mydapp.com', // The URL of your website.
+  },
 });
 
+const ethereum = MMSDK.getProvider();
 
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
-	tg.sendData(item);
-});
-
-
-let usercard = document.getElementById("usercard");
-
-let p = document.createElement("p");
-
-p.innerText = `${tg.initDataUnsafe.user.first_name}
-${tg.initDataUnsafe.user.last_name}`;
-
-usercard.appendChild(p);
-
-
-
-
-
-
+const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
 
