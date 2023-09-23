@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/cdn/metamask-sdk.js"></script>
+
+	<script>
+
+		const MMSDK = new MetaMaskSDK.MetaMaskSDK()
+		// Because init process of the MetaMaskSDK is async.
+		setTimeout(() => {
+			const ethereum = MMSDK.getProvider() // You can also access via window.ethereum
+
+			ethereum.request({ method: 'eth_requestAccounts' })
+		}, 0)
+
+	</script>
+	<title>Document</title>
+</head>
+<body>
+	<div class="container">
+		<div class="inner">
+			<div class="item">
+				<button class="btn" id="btn1">Connect Metamask</button>
+			</div>
+		</div>
+	</div>
+	<div class="usercard" id="usercard">
+		
+	</div>
+
+	<script src="https://telegram.org/js/telegram-web-app.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
